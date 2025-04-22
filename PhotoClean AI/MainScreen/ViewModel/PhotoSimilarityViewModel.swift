@@ -20,7 +20,7 @@ class PhotoSimilarityViewModel: ObservableObject {
     @Published var showSuccessScreen: Bool  = false
     private let extractor = EmbeddingExtractor()
     @Published var showPermissionAlert: Bool = false
-
+    @Published var completeExtract: Bool = false
 
     func requestPhotoAccessRecursively() {
         let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
@@ -61,6 +61,7 @@ class PhotoSimilarityViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.assets = Array(fetched.prefix(limit))
                     self.processEmbeddings(for: self.assets)
+                   
                 }
             }
         }
@@ -91,6 +92,7 @@ class PhotoSimilarityViewModel: ObservableObject {
             Task { @MainActor in
                 let groups = self.groupSimilarPhotos(assets: self.assets, embeddings: self.embeddingResults)
                 self.similarGroups = groups
+                self.completeExtract = true
             }
         }
 

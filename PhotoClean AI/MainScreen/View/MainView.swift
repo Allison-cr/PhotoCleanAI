@@ -18,9 +18,12 @@ struct MainView: View {
             ZStack {
                 Color.accentColor
                     .ignoresSafeArea()
-                if viewModel.similarGroups.isEmpty {
+                if viewModel.similarGroups.isEmpty, viewModel.completeExtract == false {
                     StubView()
-                } else {
+                } else if viewModel.similarGroups.isEmpty, viewModel.completeExtract == true {
+                    Text("No similar photos found")
+                }
+                else {
                     VStack {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack(spacing: 0) {
